@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NILE — اقرأ المانهوا بالعربية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#000;--bg2:#0a0a0a;--bg3:#111;--bg4:#141414;
+  --green:#00ff88;--green2:#00cc66;--green3:rgba(0,255,136,0.1);
+  --border:rgba(0,255,136,0.15);--border2:rgba(255,255,255,0.06);
+  --text:#e8fff2;--sub:#8abf9a;--muted:#4a7a5a;--gold:#f0a500;
+  --red:#ff4444;--sidebar:210px;
+}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;}
+.topnav{height:58px;background:#000;border-bottom:1px solid var(--border);display:flex;align-items:center;
+  justify-content:space-between;padding:0 16px;position:fixed;top:0;left:0;right:0;z-index:300;gap:12px;}
+.logo-n{font-family:'Cinzel',serif;font-size:24px;font-weight:700;color:var(--green);letter-spacing:3px;text-shadow:0 0 14px rgba(0,255,136,0.4);cursor:pointer;}
+.nav-search{flex:1;max-width:340px;position:relative;}
+.nav-search input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:7px 12px 7px 34px;color:var(--text);font-size:13px;outline:none;font-family:'Cairo',sans-serif;}
+.nav-search input:focus{border-color:var(--border);}
+.nav-search input::placeholder{color:var(--muted);}
+.si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;}
+.nav-right{display:flex;align-items:center;gap:8px;}
+.nbtn{padding:6px 14px;border-radius:5px;font-size:12px;cursor:pointer;font-family:'Cairo',sans-serif;transition:all 0.2s;}
+.nb-o{background:transparent;border:1px solid var(--border);color:var(--green);}
+.nb-o:hover{background:var(--green3);}
+.nb-s{background:var(--green);border:none;color:#000;font-weight:700;}
+.nb-s:hover{background:var(--green2);}
+.layout{display:flex;padding-top:58px;min-height:100vh;}
+.sidebar{width:var(--sidebar);background:#000;border-left:1px solid var(--border);position:fixed;top:58px;right:0;bottom:0;overflow-y:auto;padding:12px 0;z-index:200;scrollbar-width:thin;scrollbar-color:rgba(0,255,136,0.2) transparent;}
+.sb-lbl{font-size:9px;font-weight:700;color:var(--muted);letter-spacing:2px;padding:8px 14px 4px;text-transform:uppercase;}
+.sb-i{display:flex;align-items:center;gap:9px;padding:8px 14px;font-size:13px;color:var(--sub);cursor:pointer;transition:all 0.15s;border-right:3px solid transparent;}
+.sb-i:hover{background:var(--green3);color:var(--green);}
+.sb-i.act{background:rgba(0,255,136,0.07);color:var(--green);border-right-color:var(--green);}
+.sb-ico{font-size:13px;flex-shrink:0;width:15px;text-align:center;}
+.sb-bdg{margin-right:auto;background:var(--green);color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px;}
+.sb-div{height:1px;background:var(--border2);margin:8px 12px;}
+.g-pills{padding:4px 10px;display:flex;flex-wrap:wrap;gap:4px;}
+.gp{font-size:10px;padding:3px 8px;border-radius:10px;border:1px solid var(--border2);color:var(--muted);cursor:pointer;transition:all 0.15s;}
+.gp:hover,.gp.act{border-color:var(--green);color:var(--green);background:var(--green3);}
+.main{margin-right:var(--sidebar);flex:1;padding:18px 20px;min-width:0;}
+.hero{position:relative;border-radius:10px;overflow:hidden;margin-bottom:24px;height:280px;}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 0.7s;display:flex;align-items:flex-end;}
+.hero-slide.on{opacity:1;}
+.h-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.h-cover{height:100%;width:200px;flex-shrink:0;position:absolute;left:0;top:0;bottom:0;}
+.h-cover img{width:100%;height:100%;object-fit:cover;}
+.h-grad{position:absolute;inset:0;background:linear-gradient(to left,rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.6) 35%,rgba(0,0,0,0.97) 65%);}
+.h-info{position:relative;z-index:2;padding:20px 24px;flex:1;}
+.h-bdg{display:inline-flex;align-items:center;gap:5px;background:var(--green);color:#000;font-size:9px;font-weight:700;padding:3px 9px;border-radius:3px;margin-bottom:8px;letter-spacing:1px;}
+.h-title{font-size:22px;font-weight:700;color:#fff;margin-bottom:6px;line-height:1.3;}
+.h-meta{display:flex;gap:12px;font-size:11px;color:var(--sub);margin-bottom:8px;flex-wrap:wrap;}
+.h-rat{color:var(--gold);}
+.h-desc{font-size:12px;color:#9abfaa;line-height:1.6;max-width:460px;margin-bottom:14px;}
+.h-btns{display:flex;gap:8px;}
+.hbp{background:var(--green);color:#000;border:none;border-radius:5px;padding:8px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif;}
+.hbs{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.2);border-radius:5px;padding:8px 18px;font-size:12px;cursor:pointer;}
+.h-dots{position:absolute;bottom:12px;right:50%;transform:translateX(50%);display:flex;gap:5px;z-index:3;}
+.hdot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:background 0.2s;}
+.hdot.on{background:var(--green);}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.st{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;}
+.st::before{content:'';display:inline-block;width:3px;height:16px;background:var(--green);border-radius:2px;}
+.sa{font-size:11px;color:var(--green);cursor:pointer;}
+.upd-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:24px;}
+.upd{background:var(--bg2);border:1px solid var(--border2);border-radius:7px;padding:9px 11px;display:flex;gap:9px;cursor:pointer;transition:border-color 0.2s;}
+.upd:hover{border-color:var(--border);}
+.upd-th{width:42px;height:56px;border-radius:4px;flex-shrink:0;overflow:hidden;background:var(--bg3);}
+.upd-th img{width:100%;height:100%;object-fit:cover;}
+.upd-inf{min-width:0;flex:1;}
+.upd-t{font-size:12px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
+.ch-r{display:flex;align-items:center;justify-content:space-between;}
+.ch-n{font-size:10px;color:var(--green);}
+.ch-d{font-size:9px;color:var(--muted);}
+.upd-g{font-size:9px;color:var(--muted);margin-top:3px;}
+.pop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-bottom:24px;}
+.pc{cursor:pointer;transition:transform 0.2s;}
+.pc:hover{transform:translateY(-3px);}
+.pc-cov{aspect-ratio:3/4;border-radius:6px;overflow:hidden;position:relative;margin-bottom:7px;background:var(--bg3);}
+.pc-cov img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.pc-rank{position:absolute;top:5px;right:5px;background:rgba(0,0,0,0.85);color:var(--green);font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;z-index:2;}
+.pc-bdg{position:absolute;top:5px;left:5px;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;text-transform:uppercase;z-index:2;}
+.b-new{background:var(--green);color:#000;}
+.b-hot{background:var(--red);color:#fff;}
+.b-end{background:var(--gold);color:#000;}
+.pc-t{font-size:11px;font-weight:700;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pc-c{font-size:10px;color:var(--green);}
+.pc-r{font-size:10px;color:var(--gold);margin-top:1px;}
+.det-hero{display:flex;gap:20px;margin-bottom:24px;padding:20px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;}
+.det-cov{width:140px;flex-shrink:0;border-radius:8px;overflow:hidden;}
+.det-cov img{width:100%;aspect-ratio:3/4;object-fit:cover;}
+.det-info{flex:1;}
+.det-title{font-size:20px;font-weight:700;color:var(--green);margin-bottom:6px;}
+.det-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.dtag{font-size:10px;padding:3px 9px;border-radius:10px;border:1px solid var(--border);color:var(--sub);}
+.det-desc{font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:14px;}
+.det-btns{display:flex;gap:8px;flex-wrap:wrap;}
+.dbtn-p{background:var(--green);color:#000;border:none;border-radius:5px;padding:9px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif;}
+.dbtn-s{background:transparent;color:var(--text);border:1px solid var(--border);border-radius:5px;padding:9px 20px;font-size:13px;cursor:pointer;}
+.ch-list{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;overflow:hidden;}
+.ch-head{padding:12px 16px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;}
+.ch-head-t{font-size:13px;font-weight:700;color:var(--text);}
+.ch-sort{font-size:11px;color:var(--muted);cursor:pointer;}
+.ch-e{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.025);cursor:pointer;transition:background 0.15s;}
+.ch-e:last-child{border-bottom:none;}
+.ch-e:hover{background:var(--green3);}
+.ch-e .cn{font-size:12px;color:var(--sub);}
+.ch-e .cn.nw{color:var(--green);}
+.ch-e .cd{font-size:10px;color:var(--muted);}
+.rbar{background:#000;border-bottom:1px solid var(--border);padding:9px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:58px;z-index:100;}
+.rinf{flex:1;}
+.rt{font-size:13px;font-weight:700;color:var(--text);}
+.rc{font-size:11px;color:var(--muted);}
+.rctl{display:flex;gap:7px;align-items:center;flex-wrap:wrap;}
+.rbtn{background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:5px 12px;border-radius:4px;font-size:11px;cursor:pointer;font-family:'Cairo',sans-serif;transition:background 0.15s;}
+.rbtn:hover{background:var(--green3);border-color:var(--border);}
+.rsel{background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:4px;font-size:11px;cursor:pointer;outline:none;font-family:'Cairo',sans-serif;}
+.rsel option{background:#111;}
+.rpages{max-width:820px;margin:0 auto;padding:18px 14px;}
+.rpage-panels{width:100%;aspect-ratio:2/3;display:grid;gap:4px;padding:5px;margin-bottom:4px;background:var(--bg2);border-radius:3px;}
+.rp{background:rgba(0,255,136,0.03);border:1px solid rgba(255,255,255,0.04);border-radius:2px;}
+.rp.dk{background:rgba(0,0,0,0.5);}
+.lay1{grid-template:2fr 1fr 1fr/1fr;}
+.lay2{grid-template:1fr 1.5fr/1fr 1fr;}
+.lay3{grid-template:repeat(3,1fr)/1fr;}
+.lay4{grid-template:1fr 1fr/1fr 1fr;}
+.s2c{grid-column:span 2;}
+.pnum{text-align:center;font-size:10px;color:var(--muted);padding:3px 0 8px;}
+.page{display:none;}
+.page.on{display:block;}
+.auth-wrap{display:none;align-items:center;justify-content:center;min-height:60vh;padding:30px 20px;}
+.auth-wrap.on{display:flex;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:rgba(0,255,136,0.2);border-radius:2px;}
+@media(max-width:600px){
+  .sidebar{display:none;}
+  .main{margin-right:0;}
+  .det-hero{flex-direction:column;}
+  .upd-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="logo-n" onclick="goPage('home')">NILE</div>
+  <div class="nav-search">
+    <span class="si">⌕</span>
+    <input type="text" id="search-in" placeholder="ابحث في المكتبة..." oninput="doSearch(this.value)" />
+  </div>
+  <div class="nav-right">
+    <button class="nbtn nb-o" onclick="goPage('login')">دخول</button>
+    <button class="nbtn nb-s" onclick="goPage('register')">تسجيل</button>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sb-lbl">القائمة</div>
+    <div class="sb-i act" onclick="goPage('home');setSB(this)"><span class="sb-ico">🏠</span>الرئيسية</div>
+    <div class="sb-i" onclick="filterBy('all');setSB(this)"><span class="sb-ico">🔥</span>الأحدث <span class="sb-bdg">30</span></div>
+    <div class="sb-i" onclick="filterBy('top');setSB(this)"><span class="sb-ico">⭐</span>الأعلى تقييماً</div>
+    <div class="sb-i" onclick="filterBy('action');setSB(this)"><span class="sb-ico">⚔️</span>أكشن</div>
+    <div class="sb-i" onclick="filterBy('fantasy');setSB(this)"><span class="sb-ico">🌟</span>فانتازيا</div>
+    <div class="sb-i" onclick="filterBy('martial');setSB(this)"><span class="sb-ico">🥷</span>فنون قتالية</div>
+    <div class="sb-div"></div>
+    <div class="sb-lbl">تصفية</div>
+    <div class="g-pills">
+      <div class="gp act" onclick="filterBy('all');toggleGP(this)">الكل</div>
+      <div class="gp" onclick="filterBy('ongoing');toggleGP(this)">مستمرة</div>
+      <div class="gp" onclick="filterBy('regression');toggleGP(this)">رجوع للماضي</div>
+      <div class="gp" onclick="filterBy('murim');toggleGP(this)">موريم</div>
+      <div class="gp" onclick="filterBy('magic');toggleGP(this)">سحر</div>
+      <div class="gp" onclick="filterBy('survival');toggleGP(this)">بقاء</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <!-- HOME -->
+    <div id="pg-home" class="page on">
+      <div class="hero" id="hero-box"></div>
+      <div class="sh"><div class="st">آخر التحديثات</div><div class="sa" onclick="filterBy('all')">عرض الكل ←</div></div>
+      <div class="upd-grid" id="upd-grid"></div>
+      <div class="sh"><div class="st">المكتبة الكاملة (30 منهوا)</div></div>
+      <div class="pop-grid" id="pop-grid"></div>
+    </div>
+
+    <!-- LIBRARY -->
+    <div id="pg-library" class="page">
+      <div class="sh"><div class="st" id="lib-title">المكتبة الكاملة</div></div>
+      <div class="pop-grid" id="lib-grid"></div>
+    </div>
+
+    <!-- DETAIL -->
+    <div id="pg-detail" class="page">
+      <div id="det-content"></div>
+    </div>
+
+    <!-- READER -->
+    <div id="pg-reader" class="page">
+      <div class="rbar">
+        <div class="rinf"><div class="rt" id="r-title">-</div><div class="rc" id="r-ch">-</div></div>
+        <div class="rctl">
+          <button class="rbtn" id="r-prev">◀ السابق</button>
+          <select class="rsel" id="r-sel" onchange="jumpCh(+this.value)"></select>
+          <button class="rbtn" id="r-next">التالي ▶</button>
+          <button class="rbtn" onclick="goPage('detail')">📋 الفصول</button>
+          <button class="rbtn" onclick="goPage('home')">✕ إغلاق</button>
+        </div>
+      </div>
+      <div class="rpages" id="r-pages"></div>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="pg-login" class="auth-wrap">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;width:100%;max-width:380px;overflow:hidden;">
+        <div style="display:flex;border-bottom:1px solid var(--border);">
+          <div style="flex:1;padding:14px;text-align:center;font-size:12px;color:var(--muted);cursor:pointer;" onclick="goPage('register')">إنشاء حساب</div>
+          <div style="flex:1;padding:14px;text-align:center;font-size:12px;color:var(--green);border-bottom:2px solid var(--green);font-weight:700;">تسجيل الدخول</div>
+        </div>
+        <div style="padding:24px;">
+          <div style="text-align:center;margin-bottom:20px;"><div style="font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--green);letter-spacing:3px;">NILE</div><p style="font-size:11px;color:var(--muted);margin-top:4px;">أهلاً بعودتك!</p></div>
+          <div id="l-err" style="background:rgba(255,68,68,0.08);border:1px solid rgba(255,68,68,0.2);border-radius:5px;padding:8px;font-size:11px;color:#ff8a8a;margin-bottom:12px;display:none;"></div>
+          <label style="font-size:11px;color:var(--sub);display:block;margin-bottom:5px;">البريد الإلكتروني</label>
+          <input id="l-em" type="email" placeholder="example@email.com" style="width:100%;background:rgba(0,255,136,0.04);border:1px solid var(--border);border-radius:5px;padding:9px 12px;color:var(--text);font-size:13px;outline:none;margin-bottom:12px;font-family:'Cairo',sans-serif;">
+          <label style="font-size:11px;color:var(--sub);display:block;margin-bottom:5px;">كلمة المرور</label>
+          <input id="l-pw" type="password" placeholder="••••••••" style="width:100%;background:rgba(0,255,136,0.04);border:1px solid var(--border);border-radius:5px;padding:9px 12px;color:var(--text);font-size:13px;outline:none;margin-bottom:16px;font-family:'Cairo',sans-serif;">
+          <button onclick="doLogin()" style="width:100%;background:var(--green);color:#000;border:none;border-radius:5px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif;">تسجيل الدخول</button>
+          <div style="text-align:center;margin-top:12px;font-size:11px;color:var(--muted);"><a href="#" onclick="goPage('register');return false" style="color:var(--green);">إنشاء حساب جديد</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="pg-register" class="auth-wrap">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;width:100%;max-width:380px;overflow:hidden;">
+        <div style="display:flex;border-bottom:1px solid var(--border);">
+          <div style="flex:1;padding:14px;text-align:center;font-size:12px;color:var(--green);border-bottom:2px solid var(--green);font-weight:700;">إنشاء حساب</div>
+          <div style="flex:1;padding:14px;text-align:center;font-size:12px;color:var(--muted);cursor:pointer;" onclick="goPage('login')">تسجيل الدخول</div>
+        </div>
+        <div style="padding:24px;">
+          <div style="text-align:center;margin-bottom:20px;"><div style="font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--green);letter-spacing:3px;">NILE</div><p style="font-size:11px;color:var(--muted);margin-top:4px;">انضم لمجتمع القرّاء</p></div>
+          <div id="r-err" style="background:rgba(255,68,68,0.08);border:1px solid rgba(255,68,68,0.2);border-radius:5px;padding:8px;font-size:11px;color:#ff8a8a;margin-bottom:12px;display:none;"></div>
+          <div id="r-ok" style="background:rgba(0,255,136,0.07);border:1px solid rgba(0,255,136,0.2);border-radius:5px;padding:8px;font-size:11px;color:var(--green);margin-bottom:12px;display:none;">تم إنشاء حسابك! 🎉</div>
+          <label style="font-size:11px;color:var(--sub);display:block;margin-bottom:5px;">الاسم المستعار</label>
+          <input id="rg-nm" type="text" placeholder="اسمك في الموقع" style="width:100%;background:rgba(0,255,136,0.04);border:1px solid var(--border);border-radius:5px;padding:9px 12px;color:var(--text);font-size:13px;outline:none;margin-bottom:12px;font-family:'Cairo',sans-serif;">
+          <label style="font-size:11px;color:var(--sub);display:block;margin-bottom:5px;">البريد الإلكتروني</label>
+          <input id="rg-em" type="email" placeholder="example@email.com" style="width:100%;background:rgba(0,255,136,0.04);border:1px solid var(--border);border-radius:5px;padding:9px 12px;color:var(--text);font-size:13px;outline:none;margin-bottom:12px;font-family:'Cairo',sans-serif;">
+          <label style="font-size:11px;color:var(--sub);display:block;margin-bottom:5px;">كلمة المرور</label>
+          <input id="rg-pw" type="password" placeholder="••••••••" style="width:100%;background:rgba(0,255,136,0.04);border:1px solid var(--border);border-radius:5px;padding:9px 12px;color:var(--text);font-size:13px;outline:none;margin-bottom:16px;font-family:'Cairo',sans-serif;">
+          <button onclick="doReg()" style="width:100%;background:var(--green);color:#000;border:none;border-radius:5px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif;">إنشاء الحساب</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+const DB=[
+  {id:1,slug:'leveling-with-the-gods',title:'التسوية مع الآلهة',en:'Leveling With The Gods',cover:'https://uploads.mangadex.org/covers/e376d90e-aaed-4ce2-9c6e-77f9ba55bc67/7ba8d1c3-07da-43b5-9c06-d73d7a1a1f96.jpg',genre:['أكشن','فانتازيا','إثارة'],tags:['action','fantasy'],status:'مستمرة',chapters:115,rating:'9.6',badge:'hot',color:'#0a0a1a',desc:'يجد كيم ويانغ نفسه في برج يُسكنه الآلهة بعد أن كان الشخص الوحيد الذي استطاع الوصول إلى قمة البرج في حياته السابقة. بتلك الذكريات والمعرفة المكتسبة، يبدأ رحلة جديدة لتحقيق ما فشل فيه من قبل.',latest:['الفصل 115 — المواجهة الأخيرة','الفصل 114 — التحالف'],times:['منذ يوم','3 أيام']},
+  {id:2,slug:'demon-king-overrun',title:'ملك الشياطين المُحاط بالأبطال',en:'The Demon King Overrun by Heroes',cover:'https://uploads.mangadex.org/covers/d8f84a5f-7e4f-435b-9b61-fa93e44a7fb1/d2e63e24-0ef5-4ab5-8c93-0affe12fce71.jpg',genre:['أكشن','كوميديا','فانتازيا'],tags:['action','fantasy'],status:'مستمرة',chapters:85,rating:'9.1',badge:'hot',color:'#1a0505',desc:'ملك الشياطين الأسطوري بات محاطاً بالأبطال الذين يصطادونه كل يوم. قصة كوميدية رائعة عن ملك شيطان يحاول البقاء بين أبطال يحبونه رغماً عنه.',latest:['الفصل 85 — اليوم الهادئ','الفصل 84 — الزيارة المفاجئة'],times:['منذ 2 يوم','5 أيام']},
+  {id:3,slug:'nebulas-civilization',title:'حضارة النيبولا',en:"The Nebula's Civilization",cover:'https://uploads.mangadex.org/covers/4a8bded7-f21e-4c40-b5dc-cfe5e65daf5e/e3c6a3d7-d4e8-4e69-8c30-7c69e27f5ef3.jpg',genre:['فانتازيا','مغامرة','خيال علمي'],tags:['fantasy'],status:'مستمرة',chapters:78,rating:'9.0',badge:'new',color:'#000a1a',desc:'لاعب ينتقل إلى عالم آخر حيث يجب عليه بناء حضارة من الصفر وسط فوضى كونية لا حدود لها.',latest:['الفصل 78 — البناء','الفصل 77 — الأساس'],times:['منذ يوم','أسبوع']},
+  {id:4,slug:'limit-breaking-mage',title:'الساحر كاسر الحدود',en:'Limit-Breaking Genius Mage',cover:'https://uploads.mangadex.org/covers/7a0e8fb0-fca4-4f40-9d49-6b6a8f1c3e76/b7e2c9a1-3b5e-4f2a-9c8d-1e4f7a2b5c6d.jpg',genre:['فانتازيا','سحر','أكشن'],tags:['fantasy','magic'],status:'مستمرة',chapters:62,rating:'8.9',badge:'new',color:'#050a1a',desc:'ساحر موهوب يتجاوز كل الحدود المفروضة على قوته السحرية ليصبح أقوى ساحر في التاريخ.',latest:['الفصل 62 — الاختراق','الفصل 61 — الحاجز الأخير'],times:['منذ 3 أيام','أسبوع']},
+  {id:5,slug:'murim-login',title:'تسجيل الدخول للموريم',en:'Murim Login',cover:'https://uploads.mangadex.org/covers/246f2c0c-4c50-4ef4-b292-c17f0f68a17c/b9d3a1c5-2e4f-4a8b-9c7d-3f1e6b2a4c8e.jpg',genre:['أكشن','فنون قتالية','مغامرة'],tags:['action','martial','murim'],status:'مستمرة',chapters:183,rating:'9.5',badge:'hot',color:'#0a1a00',desc:'صياد من الدرجة F يحصل على كبسولة قديمة تنقله إلى عالم الموريم حيث يكتسب قدرات الفنون القتالية. يبدأ رحلته ليصبح المحارب الأعظم.',latest:['الفصل 183 — الأسطورة','الفصل 182 — القمة'],times:['منذ ساعتين','4 أيام']},
+  {id:6,slug:'regressed-duke-assassin',title:'ابن الدوق العائد قاتل',en:'The Regressed Son of a Duke is an Assassin',cover:'https://uploads.mangadex.org/covers/b5e7c3a1-4d2f-4e8a-9b6c-2f1e5a3b7c9d/a1b2c3d4-e5f6-7890-abcd-ef1234567890.jpg',genre:['أكشن','فانتازيا','إثارة'],tags:['action','fantasy','regression'],status:'مستمرة',chapters:117,rating:'9.4',badge:'hot',color:'#0a0a0a',desc:'ابن عائلة الدوق المشهورة عاد من المستقبل ليكشف الخيانات التي أهلكت عائلته. هذه المرة لن يكون نبيلاً بل سيكون قاتلاً من الظل.',latest:['الفصل 117 — من الظلام','الفصل 116 — الهدف'],times:['منذ يوم','6 أيام']},
+  {id:7,slug:'talent-swallowing-magician',title:'الساحر ابتلاع المواهب',en:'Talent-Swallowing Magician',cover:'https://uploads.mangadex.org/covers/9c3e7b5a-2f4d-4a8e-b6c1-3e2f5a1b4c7d/d4e5f6a7-b8c9-0123-4567-89abcdef0123.jpg',genre:['فانتازيا','سحر','أكشن'],tags:['fantasy','magic'],status:'مستمرة',chapters:96,rating:'9.2',badge:'hot',color:'#0a0517',desc:'ساحر يمتلك قدرة فريدة على ابتلاع مواهب الآخرين وجعلها جزءاً منه. رحلة نمو استثنائية في عالم مليء بالسحر والمؤامرات.',latest:['الفصل 96 — المواهب المسروقة','الفصل 95 — الجوهر'],times:['منذ ساعة','3 أيام']},
+  {id:8,slug:'sect-system',title:'تهيئة نظام الطائفة',en:'Initializing the Sect System',cover:'https://uploads.mangadex.org/covers/c7e9b3a5-4f2d-4e6a-8b4c-1e3f7a5b9c2d/e5f6a7b8-c9d0-1234-5678-9abcdef01234.jpg',genre:['فانتازيا','فنون قتالية','مغامرة'],tags:['fantasy','martial'],status:'مستمرة',chapters:74,rating:'8.8',badge:'new',color:'#001a0a',desc:'شاب ينتقل إلى عالم آخر ويحصل على نظام يسمح له ببناء طائفة قتالية من الصفر وتدريب محاربين أسطوريين.',latest:['الفصل 74 — التدريب','الفصل 73 — الانضمام'],times:['منذ يومين','أسبوع']},
+  {id:9,slug:'eleceed',title:'إيليسيد',en:'Eleceed',cover:'https://uploads.mangadex.org/covers/87a04e87-1f30-4a56-a1c5-5ae32d6a07fb/b9eea2e8-f2c2-4979-b28e-3b7c3fc1f0dd.jpg',genre:['أكشن','فانتازيا','كوميديا'],tags:['action','fantasy'],status:'مستمرة',chapters:270,rating:'9.4',badge:'hot',color:'#000a1a',desc:'جيوو شاب يمتلك قدرة السرعة الخارقة تشبه القط. كايدن عميل سري يجد نفسه عالقاً في جسم قط سمين. معاً يحاربان الشر في قصة أكشن مليئة بالكوميديا.',latest:['الفصل 270 — القطة والعميل','الفصل 269 — المعركة الجديدة'],times:['منذ ساعة','أسبوع']},
+  {id:10,slug:'star-swordmaster',title:'سيد السيف محتضن النجوم',en:'Star-Embracing Swordmaster',cover:'https://uploads.mangadex.org/covers/a1b3c5e7-2d4f-4a6c-8e0b-1c3e5a7b9d2f/f6a7b8c9-d0e1-2345-6789-abcdef012345.jpg',genre:['أكشن','فانتازيا','إثارة'],tags:['action','fantasy'],status:'مستمرة',chapters:88,rating:'9.1',badge:'hot',color:'#0a0517',desc:'سيد سيف يحمل سر النجوم في ضرباته. رحلة بحث عن الكمال في فن السيف تأخذه إلى حدود العالم.',latest:['الفصل 88 — ضربة النجوم','الفصل 87 — التدريب الأخير'],times:['منذ 2 يوم','أسبوع']},
+  {id:11,slug:'31st-piece',title:'القطعة 31 تقلب الطاولة',en:'The 31st Piece Turns the Tables',cover:'https://uploads.mangadex.org/covers/b3d5f7a9-4e6c-4b8d-9f0a-2d4e6f8a0b2c/a7b8c9d0-e1f2-3456-789a-bcdef0123456.jpg',genre:['فانتازيا','مغامرة','أكشن'],tags:['fantasy','action'],status:'مستمرة',chapters:111,rating:'9.3',badge:'hot',color:'#1a0a00',desc:'لاعب يتحكم في شخصيات اللعبة يجد نفسه داخل اللعبة نفسها كالشخصية الحادية والثلاثين. قصة ملحمية ممتعة.',latest:['الفصل 111 — القطعة الأخيرة','الفصل 110 — الحركة المميتة'],times:['منذ يوم','5 أيام']},
+  {id:12,slug:'mercenary-enrollment',title:'التسجيل كمرتزق',en:'Mercenary Enrollment',cover:'https://uploads.mangadex.org/covers/c5e7a9b1-3f5d-4c7e-a0b2-4d6f8a0b2c4e/b8c9d0e1-f2a3-4567-89bc-def012345678.jpg',genre:['أكشن','إثارة','دراما'],tags:['action'],status:'مستمرة',chapters:168,rating:'9.3',badge:'hot',color:'#0a1a0a',desc:'مرتزق محترف يعود لحياة المراهقة العادية. ماذا يحدث حين يحاول أفضل مقاتل في العالم أن يعيش حياة طبيعية؟',latest:['الفصل 168 — الأمن المدرسي','الفصل 167 — الخطر القادم'],times:['منذ ساعتين','4 أيام']},
+  {id:13,slug:'vehement-emperor',title:'إمبراطور الفولاذ القوي',en:'The Vehement Emperor Of Steel',cover:'https://uploads.mangadex.org/covers/d7f9b1c3-5a7e-4d9f-b1c3-6e8a0b2d4f6a/c9d0e1f2-a3b4-5678-9cde-f01234567890.jpg',genre:['أكشن','فانتازيا','فنون قتالية'],tags:['action','fantasy','martial'],status:'مستمرة',chapters:143,rating:'9.1',badge:'hot',color:'#1a0500',desc:'إمبراطور أسطوري يعود للماضي بعد أن خسر كل شيء. بذكريات السنوات الطويلة يبني إمبراطوريته من جديد.',latest:['الفصل 143 — الإمبراطور يصعد','الفصل 142 — عرش الفولاذ'],times:['منذ 3 أيام','أسبوع']},
+  {id:14,slug:'indomitable-martial-king',title:'ملك فنون القتال الذي لا يُقهر',en:'The Indomitable Martial King',cover:'https://uploads.mangadex.org/covers/e9f1b3d5-7c9e-4f1b-c3d5-8a0b2c4e6f8a/d0e1f2a3-b4c5-6789-0def-123456789012.jpg',genre:['أكشن','فنون قتالية','فانتازيا'],tags:['action','martial'],status:'مستمرة',chapters:122,rating:'9.2',badge:'hot',color:'#0a0a1a',desc:'ملك فنون القتال الأسطوري الذي لم يُهزم قط يواجه تحديات جديدة في عالم تغير كلياً.',latest:['الفصل 122 — ما لا يُقهر','الفصل 121 — الأسطورة الحية'],times:['منذ يوم','6 أيام']},
+  {id:15,slug:'great-mage-reincarnates',title:'الساحر العظيم يتقمص',en:"The Great Mage of the Hero's Party Reincarnates",cover:'https://uploads.mangadex.org/covers/f1b3d5e7-9a1c-4e3f-d5e7-9b1c3e5f7a9b/e1f2a3b4-c5d6-7890-1ef2-a3b4c5d67890.jpg',genre:['فانتازيا','سحر','مغامرة'],tags:['fantasy','magic'],status:'مستمرة',chapters:67,rating:'8.8',badge:'new',color:'#050a17',desc:'الساحر الأعظم في حزب البطل يموت ويتقمص جسداً جديداً. بكل معرفته السابقة يعيش حياة ثانية ويصحح أخطاء الماضي.',latest:['الفصل 67 — المعرفة القديمة','الفصل 66 — البداية الجديدة'],times:['منذ 4 أيام','أسبوعان']},
+  {id:16,slug:'simulated-path',title:'مسار محاكاتي نحو الخلود',en:'My Simulated Path To Immortality',cover:'https://uploads.mangadex.org/covers/a3c5e7f9-1b3d-4c5e-e7f9-1b3d5e7f9a1c/f2a3b4c5-d6e7-8901-2f3a-4b5c6d7e8901.jpg',genre:['فانتازيا','مغامرة','سحر'],tags:['fantasy','magic'],status:'مستمرة',chapters:54,rating:'8.7',badge:'new',color:'#000a1a',desc:'نظام محاكاة يمنح البطل القدرة على تجربة آلاف المسارات ليختار الأنسب نحو الخلود.',latest:['الفصل 54 — المحاكاة المثالية','الفصل 53 — الخلود يقترب'],times:['منذ 5 أيام','أسبوعان']},
+  {id:17,slug:'wimps-strategy',title:'دليل الجبان لاحتلال البرج',en:"A Wimp's Strategy Guide to Conquer the Tower",cover:'https://uploads.mangadex.org/covers/b5d7f9a1-3c5e-4d7f-9a1b-3c5e7f9a1b3c/a3b4c5d6-e7f8-9012-3a4b-5c6d7e8f9012.jpg',genre:['كوميديا','أكشن','مغامرة'],tags:['action'],status:'مستمرة',chapters:49,rating:'8.6',badge:'new',color:'#0a1a05',desc:'شاب جبان يحاول صعود برج أسطوري يقتل الأبطال. استراتيجيات عبقرية وكوميديا محكمة تجعله يتقدم.',latest:['الفصل 49 — خطة الجبان','الفصل 48 — الطابق الجديد'],times:['منذ يومين','أسبوع']},
+  {id:18,slug:'surviving-apocalypse',title:'النجاة من نهاية العالم',en:'Surviving The Apocalypse',cover:'https://uploads.mangadex.org/covers/c7e9f1b3-5d7a-4e9f-1b3c-5d7f9a1b3c5e/b4c5d6e7-f8a9-0123-4c5d-6e7f8a9b0123.jpg',genre:['أكشن','بقاء','إثارة'],tags:['action','survival'],status:'مستمرة',chapters:91,rating:'9.0',badge:'hot',color:'#1a0a00',desc:'نهاية العالم حلّت وبات البقاء هو الهدف الوحيد. بطل يحمل ذكريات المستقبل يحاول إنقاذ من حوله.',latest:['الفصل 91 — النهاية تقترب','الفصل 90 — البقاء'],times:['منذ ساعة','5 أيام']},
+  {id:19,slug:'iron-blooded-sword',title:'انتقام كلب السيف الدموي',en:'Revenge of the Iron-Blooded Sword Hound',cover:'https://uploads.mangadex.org/covers/d9f1b3e5-7a9c-4f1b-3e5d-7f9a1b3e5d7f/c5d6e7f8-a9b0-1234-5d6e-7f8a9b0c1234.jpg',genre:['أكشن','فانتازيا','انتقام'],tags:['action','fantasy'],status:'مستمرة',chapters:103,rating:'9.2',badge:'hot',color:'#1a0000',desc:'محارب كان خادماً وعبداً ينتقم من أسياده الذين ظلموه طوال حياته. ثأر مشتعل في عالم فانتازيا ملحمي.',latest:['الفصل 103 — الثأر ينضج','الفصل 102 — النار الداخلية'],times:['منذ يوم','أسبوع']},
+  {id:20,slug:'childhood-friend-zenith',title:'صديق الطفولة من قمة الطيف',en:'Childhood Friend of the Zenith',cover:'https://uploads.mangadex.org/covers/f1b3e5a7-9c1e-4b3f-5a7f-9c1e3f5a7f9c/d6e7f8a9-b0c1-2345-6e7f-8a9b0c1d2345.jpg',genre:['رومانسية','فانتازيا','فنون قتالية'],tags:['fantasy','martial'],status:'مستمرة',chapters:145,rating:'9.3',badge:'hot',color:'#1a0a17',desc:'محارب يعود للماضي ليعيش مع أصدقاء الطفولة. قصة حب وانتقام ومعارك في عالم الموريم.',latest:['الفصل 145 — الصديقة القديمة','الفصل 144 — الذكريات'],times:['منذ 2 يوم','6 أيام']},
+  {id:21,slug:'terminally-ill-knight',title:'فارس الظلام المحكوم عليه',en:'Terminally-Ill Genius Dark Knight',cover:'https://uploads.mangadex.org/covers/a3e5f7b9-1d3f-4a5e-7b9a-1d3f5a7e9b1d/e7f8a9b0-c1d2-3456-7f8a-9b0c1d2e3456.jpg',genre:['فانتازيا','أكشن','دراما'],tags:['action','fantasy'],status:'مستمرة',chapters:78,rating:'9.0',badge:'hot',color:'#0a0517',desc:'فارس ظلام عبقري يعاني من مرض قاتل يمنحه قوى مجنونة. يستغل الوقت الضيق ليترك أثراً خالداً في التاريخ.',latest:['الفصل 78 — الوقت ينفد','الفصل 77 — لحظة حاسمة'],times:['منذ 3 أيام','أسبوع']},
+  {id:22,slug:'how-to-villain',title:'كيف تعيش كشرير',en:'How to live as a Villain',cover:'https://uploads.mangadex.org/covers/b5f7a9c1-3e5a-4f7b-9c1b-3e5f7a9c1b3e/f8a9b0c1-d2e3-4567-8a9b-0c1d2e3f4567.jpg',genre:['فانتازيا','كوميديا','إثارة'],tags:['fantasy','action'],status:'مستمرة',chapters:56,rating:'8.7',badge:'new',color:'#1a0a00',desc:'بطل رواية ينتقل ليعيش كشرير ثانوي في رواية فانتازيا. بمعرفته بالقصة، كيف يتجنب الموت ويصنع مسيرته؟',latest:['الفصل 56 — استراتيجية الشرير','الفصل 55 — خطوة الظلام'],times:['منذ يومين','أسبوع']},
+  {id:23,slug:'sword-devouring',title:'سيد السيف آكل السيوف',en:'Sword-Devouring Swordmaster',cover:'https://uploads.mangadex.org/covers/c7a9b1d3-5f7c-4a9b-1d3c-5f7a9b1d3c5f/a9b0c1d2-e3f4-5678-9b0c-1d2e3f4a5678.jpg',genre:['أكشن','فانتازيا','فنون قتالية'],tags:['action','fantasy','martial'],status:'مستمرة',chapters:68,rating:'8.9',badge:'new',color:'#0a0a1a',desc:'سيد سيف يمتلك قدرة فريدة على "أكل" السيوف وامتصاص قوتها. كل سيف يابتلعه يمنحه مهارات جديدة.',latest:['الفصل 68 — السيف الأسطوري','الفصل 67 — الابتلاع'],times:['منذ 4 أيام','أسبوعان']},
+  {id:24,slug:'eat-and-go',title:'كل واذهب',en:'Eat and GO',cover:'https://uploads.mangadex.org/covers/d9b1c3e5-7a9b-4b1c-3e5d-7a9b1c3e5d7a/b0c1d2e3-f4a5-6789-0c1d-2e3f4b0c1234.jpg',genre:['أكشن','مغامرة','كوميديا'],tags:['action'],status:'مستمرة',chapters:82,rating:'9.0',badge:'hot',color:'#0a1a00',desc:'قصة عن بطل يحصل على قوى من خلال الأكل. كل طعام يأكله يمنحه قدرة فريدة في مغامرات مثيرة ومضحكة.',latest:['الفصل 82 — وجبة القوة','الفصل 81 — الطعام الأسطوري'],times:['منذ ساعتين','3 أيام']},
+  {id:25,slug:'murim-psychopath',title:'المجنون في عالم الموريم',en:'Murim Psychopath',cover:'https://uploads.mangadex.org/covers/e1c3d5f7-9b1d-4c3e-5f7e-9b1d3f5e7f9b/c1d2e3f4-a5b6-7890-1d2e-3f4a5b6c7890.jpg',genre:['أكشن','فنون قتالية','إثارة'],tags:['action','martial','murim'],status:'مستمرة',chapters:92,rating:'9.1',badge:'hot',color:'#1a0000',desc:'مريض نفسي يستيقظ في عالم الموريم ويواجه المحاربين الأقوياء بأساليب غير متوقعة.',latest:['الفصل 92 — العقل المجنون','الفصل 91 — لا منطق للقوة'],times:['منذ يوم','5 أيام']},
+  {id:26,slug:'eternally-regressing',title:'الفارس المتراجع إلى الأبد',en:'Eternally Regressing Knight',cover:'https://uploads.mangadex.org/covers/f3d5e7a9-1c3e-4d5f-7a9f-1c3e5d7f9a1c/d2e3f4a5-b6c7-8901-2e3f-4a5b6c7d8901.jpg',genre:['أكشن','فانتازيا','إثارة'],tags:['action','fantasy','regression'],status:'مستمرة',chapters:64,rating:'9.0',badge:'new',color:'#0a0517',desc:'فارس يموت ويعود للحظة بعينها مراراً. لكل رجعة تراكم للمعرفة والقوة نحو كسر الحلقة الأبدية.',latest:['الفصل 64 — الحلقة تنكسر','الفصل 63 — التراكم'],times:['منذ يومين','أسبوع']},
+  {id:27,slug:'absolute-regression',title:'التراجع المطلق',en:'Absolute Regression',cover:'https://uploads.mangadex.org/covers/a5e7f9b1-3d5f-4e7a-9b1a-3d5f7e9a1b3d/e3f4a5b6-c7d8-9012-3f4a-5b6c7d8e9012.jpg',genre:['أكشن','إثارة','فانتازيا'],tags:['action','fantasy','regression'],status:'مستمرة',chapters:86,rating:'9.2',badge:'hot',color:'#1a0a0a',desc:'أقوى قاتل في التاريخ يعود إلى طفولته بكل ذكريات وقدرات حياته الكاملة. الانتقام المطلق من كل من أساء له.',latest:['الفصل 86 — الطفل القاتل','الفصل 85 — الانتقام يبدأ'],times:['منذ ساعة','4 أيام']},
+  {id:28,slug:'constellations-disciples',title:'الكوكبات هم تلاميذي',en:'The Constellations Are My Disciples',cover:'https://uploads.mangadex.org/covers/b7f9a1c3-5e7b-4f9a-1c3b-5e7f9a1c3b5e/f4a5b6c7-d8e9-0123-4a5b-6c7d8e9f0123.jpg',genre:['فانتازيا','مغامرة','إثارة'],tags:['fantasy','action'],status:'مستمرة',chapters:71,rating:'8.8',badge:'new',color:'#000a1a',desc:'لاعب أفضل في لعبة الكوكبات يجد نفسه في عالم اللعبة حيث الكوكبات الأسطورية هي تلاميذه في الواقع.',latest:['الفصل 71 — تلميذ الكوكبة','الفصل 70 — النجوم تتحرك'],times:['منذ 3 أيام','أسبوع']},
+  {id:29,slug:'children-rune',title:'أطفال الرون',en:'Children Of The Rune',cover:'https://uploads.mangadex.org/covers/c9a1b3d5-7f9c-4a1b-3d5c-7f9a1b3d5c7f/a5b6c7d8-e9f0-1234-5b6c-7d8e9f0a1234.jpg',genre:['فانتازيا','مغامرة','سحر'],tags:['fantasy','magic'],status:'مستمرة',chapters:58,rating:'8.7',badge:'new',color:'#050a17',desc:'أطفال يُولدون بنقوش رون سحرية على أجسادهم تمنحهم قدرات هائلة وتحدد مصيرهم في عالم قديم.',latest:['الفصل 58 — الرون الكامل','الفصل 57 — الختم ينكسر'],times:['منذ 4 أيام','أسبوعان']},
+  {id:30,slug:'beginning-after-end',title:'البداية بعد النهاية',en:'The Beginning After The End',cover:'https://uploads.mangadex.org/covers/a096c433-2c5d-4b60-88e0-5de0e65a7e0c/b9c3e7af-0b2b-4c05-8e3c-d9ca0a9e1e8a.jpg',genre:['فانتازيا','أكشن','مغامرة'],tags:['action','fantasy'],status:'مستمرة',chapters:185,rating:'9.6',badge:'hot',color:'#0a0a1a',desc:'ملك قوي يموت وعيتناسخ في عالم آخر مليء بالسحر كطفل. بذكريات الملوكية يبدأ من جديد ليبني قوة جديدة.',latest:['الفصل 185 — الملك يعود','الفصل 184 — القوة القديمة'],times:['منذ ساعتين','4 أيام']},
+];
+
+let curManga=null,curCh=1,curSlide=0;
+const users={};
+
+function cs(m){return `background:linear-gradient(160deg,${m.color||'#0a0a0a'} 0%,#001a08 100%)`;}
+
+function buildHero(){
+  const ids=[0,4,8,11,19,29];
+  const box=document.getElementById('hero-box');
+  const slides=ids.map((idx,i)=>{const m=DB[idx];return`<div class="hero-slide${i===0?' on':''}" id="hs${i}"><div class="h-bg" style="${cs(m)}"><div class="h-cover"><img src="${m.cover}" onerror="this.style.display='none'"/></div></div><div class="h-grad"></div><div class="h-info"><div class="h-bdg">🔥 الأكثر شعبية</div><div class="h-title">${m.title}</div><div class="h-meta"><span class="h-rat">★ ${m.rating}</span><span>•</span><span>${m.genre[0]}</span><span>•</span><span>${m.chapters} فصل</span></div><div class="h-desc">${m.desc.substring(0,110)}...</div><div class="h-btns"><button class="hbp" onclick="openDetail(${m.id})">▶ اقرأ الآن</button><button class="hbs">+ مكتبتي</button></div></div></div>`;}).join('');
+  const dots=ids.map((_,i)=>`<div class="hdot${i===0?' on':''}" onclick="gotoSlide(${i})"></div>`).join('');
+  box.innerHTML=slides+`<div class="h-dots">${dots}</div>`;
+}
+function gotoSlide(n){document.querySelectorAll('.hero-slide').forEach((s,i)=>s.classList.toggle('on',i===n));document.querySelectorAll('.hdot').forEach((d,i)=>d.classList.toggle('on',i===n));curSlide=n;}
+setInterval(()=>gotoSlide((curSlide+1)%6),4500);
+
+function buildUpdates(){
+  document.getElementById('upd-grid').innerHTML=DB.slice(0,12).map(m=>`<div class="upd" onclick="openDetail(${m.id})"><div class="upd-th"><img src="${m.cover}" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover;"/></div><div class="upd-inf"><div class="upd-t">${m.title}</div><div class="ch-r"><span class="ch-n">${m.latest[0].split('—')[0].trim()}</span><span class="ch-d">${m.times[0]}</span></div><div class="ch-r"><span class="ch-n">${m.latest[1].split('—')[0].trim()}</span><span class="ch-d">${m.times[1]}</span></div><div class="upd-g">${m.genre[0]} • ${m.genre[1]||''}</div></div></div>`).join('');
+}
+
+function buildGrid(list,tid){
+  document.getElementById(tid).innerHTML=list.map((m,i)=>`<div class="pc" onclick="openDetail(${m.id})"><div class="pc-cov" style="${cs(m)}"><img src="${m.cover}" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;"/><div class="pc-rank">#${i+1}</div>${m.badge?`<div class="pc-bdg b-${m.badge}">${m.badge==='hot'?'HOT':m.badge==='new'?'NEW':'END'}</div>`:''}</div><div class="pc-t">${m.title}</div><div class="pc-c">ف ${m.chapters}</div><div class="pc-r">★ ${m.rating}</div></div>`).join('');
+}
+
+function openDetail(id){
+  curManga=DB.find(m=>m.id===id);if(!curManga)return;
+  const m=curManga;
+  const chs=[];
+  for(let i=m.chapters;i>=Math.max(1,m.chapters-14);i--){
+    const nw=i>=m.chapters-1;
+    chs.push(`<div class="ch-e" onclick="startReader(${m.id},${i})"><div class="cn${nw?' nw':''}">الفصل ${i}${i===m.chapters?' — '+m.latest[0].split('—')[1]:i===m.chapters-1?' — '+m.latest[1].split('—')[1]:''}</div><div class="cd">${i===m.chapters?m.times[0]:i===m.chapters-1?m.times[1]:'قديم'}</div></div>`);
+  }
+  document.getElementById('det-content').innerHTML=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;cursor:pointer;" onclick="goPage('home')"><span style="color:var(--green);font-size:12px;">← الرئيسية</span></div><div class="det-hero"><div class="det-cov" style="${cs(m)}"><img src="${m.cover}" onerror="this.style.display='none'" style="width:100%;aspect-ratio:3/4;object-fit:cover;"/></div><div class="det-info"><div class="det-title">${m.title}</div><div style="font-size:11px;color:var(--muted);margin-bottom:8px;">${m.en}</div><div class="det-tags">${m.genre.map(g=>`<div class="dtag">${g}</div>`).join('')}<div class="dtag" style="border-color:var(--green);color:var(--green);">${m.status}</div></div><div style="display:flex;gap:16px;font-size:12px;margin-bottom:10px;"><span style="color:var(--gold)">★ ${m.rating}</span><span style="color:var(--muted)">الفصول: <span style="color:var(--text)">${m.chapters}</span></span></div><div class="det-desc">${m.desc}</div><div class="det-btns"><button class="dbtn-p" onclick="startReader(${m.id},1)">▶ اقرأ من البداية</button><button class="dbtn-p" style="background:transparent;color:var(--green);border:1px solid var(--green);" onclick="startReader(${m.id},${m.chapters})">▶ آخر فصل</button><button class="dbtn-s">+ أضف للمكتبة</button></div></div></div><div class="sh" style="margin-bottom:14px"><div class="st">قائمة الفصول</div><span style="font-size:11px;color:var(--muted);">${m.chapters} فصل</span></div><div class="ch-list"><div class="ch-head"><div class="ch-head-t">${m.title}</div><div class="ch-sort">⬇ الأحدث أولاً</div></div>${chs.join('')}</div>`;
+  goPage('detail');
+}
+
+function startReader(id,ch){
+  curManga=DB.find(m=>m.id===id);if(!curManga)return;
+  curCh=ch;
+  document.getElementById('r-title').textContent=curManga.title;
+  const sel=document.getElementById('r-sel');sel.innerHTML='';
+  for(let i=1;i<=Math.min(curManga.chapters,50);i++){const op=document.createElement('option');op.value=i;op.textContent='الفصل '+i;if(i===ch)op.selected=true;sel.appendChild(op);}
+  document.getElementById('r-prev').onclick=()=>{if(curCh>1){curCh--;loadPages();}};
+  document.getElementById('r-next').onclick=()=>{if(curCh<curManga.chapters){curCh++;loadPages();}};
+  loadPages();goPage('reader');
+}
+function jumpCh(n){curCh=n;loadPages();}
+const LAYS=[{cls:'lay1',p:[{},{cls:'dk'},{cls:'dk'}]},{cls:'lay2',p:[{},{cls:'dk'},{},{cls:'s2c dk'}]},{cls:'lay3',p:[{cls:'dk'},{},{cls:'dk'}]},{cls:'lay4',p:[{},{cls:'dk'},{cls:'dk'},{}]}];
+function loadPages(){
+  document.getElementById('r-ch').textContent='الفصل '+curCh+' من '+curManga.chapters;
+  document.getElementById('r-sel').value=curCh;
+  document.getElementById('r-prev').disabled=curCh<=1;
+  document.getElementById('r-next').disabled=curCh>=curManga.chapters;
+  let h='';
+  for(let i=0;i<4;i++){const l=LAYS[(curCh+i)%LAYS.length];h+=`<div class="rpage-panels ${l.cls}">${l.p.map(p=>`<div class="rp ${p.cls||''}"></div>`).join('')}</div><div class="pnum">صفحة ${i+1}</div>`;}
+  document.getElementById('r-pages').innerHTML=h;window.scrollTo(0,0);
+}
+
+function goPage(p){
+  const all=['home','library','detail','reader'];
+  all.forEach(id=>{const el=document.getElementById('pg-'+id);if(el){el.classList.toggle('on',id===p);el.style.display=id===p?'block':'none';}});
+  ['login','register'].forEach(id=>{const el=document.getElementById('pg-'+id);if(el){el.classList.toggle('on',id===p);el.style.display=id===p?'flex':'none';}});
+}
+function setSB(el){document.querySelectorAll('.sb-i').forEach(i=>i.classList.remove('act'));el.classList.add('act');}
+function toggleGP(el){document.querySelectorAll('.gp').forEach(g=>g.classList.remove('act'));el.classList.add('act');}
+
+function filterBy(type){
+  let list=type==='all'?[...DB]:type==='top'?[...DB].sort((a,b)=>parseFloat(b.rating)-parseFloat(a.rating)):DB.filter(m=>m.tags.includes(type)||m.genre.some(g=>g.includes(type)));
+  if(!list.length)list=[...DB];
+  document.getElementById('lib-title').textContent=`المكتبة — ${list.length} منهوا`;
+  buildGrid(list,'lib-grid');goPage('library');
+}
+function doSearch(q){
+  if(!q.trim())return;
+  const r=DB.filter(m=>m.title.includes(q)||m.en.toLowerCase().includes(q.toLowerCase()));
+  document.getElementById('lib-title').textContent=`نتائج البحث — ${r.length} نتيجة`;
+  buildGrid(r.length?r:DB,'lib-grid');goPage('library');
+}
+function doLogin(){
+  const em=document.getElementById('l-em').value.trim(),pw=document.getElementById('l-pw').value,err=document.getElementById('l-err');
+  err.style.display='none';
+  if(!em||!pw){err.textContent='يرجى ملء جميع الحقول';err.style.display='block';return;}
+  const u=users[em];
+  if(!u||u.pw!==pw){err.textContent='بيانات غير صحيحة';err.style.display='block';return;}
+  goPage('home');
+}
+function doReg(){
+  const n=document.getElementById('rg-nm').value.trim(),em=document.getElementById('rg-em').value.trim(),pw=document.getElementById('rg-pw').value;
+  const err=document.getElementById('r-err'),ok=document.getElementById('r-ok');
+  err.style.display='none';ok.style.display='none';
+  if(!n||!em||!pw){err.textContent='يرجى ملء جميع الحقول';err.style.display='block';return;}
+  if(!em.includes('@')){err.textContent='بريد غير صالح';err.style.display='block';return;}
+  if(pw.length<6){err.textContent='كلمة المرور 6 أحرف على الأقل';err.style.display='block';return;}
+  users[em]={name:n,pw};ok.style.display='block';
+  setTimeout(()=>goPage('login'),1200);
+}
+
+// INIT
+buildHero();
+buildUpdates();
+buildGrid(DB,'pop-grid');
+buildGrid(DB,'lib-grid');
+document.querySelectorAll('.page').forEach(p=>{p.style.display='none';});
+document.getElementById('pg-home').style.display='block';
+document.getElementById('pg-home').classList.add('on');
+</script>
+</body>
+</html>
